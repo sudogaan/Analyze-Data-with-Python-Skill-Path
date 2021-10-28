@@ -33,3 +33,20 @@ ones_place = lambda num: num%10
 
 print ones_place(123)
 print ones_place(4)
+
+#Double Square
+double_square = lambda num: (num**2) *2 
+
+print double_square(5)
+print double_square(3)
+
+#Add Random
+import random
+#Write your lambda function here
+add_random = lambda num: num+random.randint(1, 10)
+print add_random(5)
+print add_random(100)
+
+
+
+
