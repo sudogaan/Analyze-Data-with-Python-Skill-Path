@@ -21,13 +21,13 @@ possible_surveys = np.random.binomial(survey_length, 0.54, size=10000) / survey_
 plt.hist(possible_surveys, range=(0,1), bins=20)
 plt.show()
 
-possible_surveys_lenght = float(len(possible_surveys))
+possible_surveys_length = float(len(possible_surveys))
 incorrect_predictions = len(possible_surveys[possible_surveys < 0.5])
-ceballos_loss_surveys = incorrect_predictions / possible_surveys_lenght
+ceballos_loss_surveys = incorrect_predictions / possible_surveys_length
 print(ceballos_loss_surveys)
 
 large_survey_length = float(7000)
-large_survey = np.random.binomial(large_survey_length, 0.54, size=7000) / large_survey_length
+large_survey = np.random.binomial(large_survey_length, 0.54, size=10000) / large_survey_length
 
 incorrect_predictions = len(large_survey[large_survey < 0.5])
 ceballos_loss_new = incorrect_predictions / large_survey_length
