@@ -1,4 +1,4 @@
-
+#This project was written to make several analysis on an A/B Test which was conducted for a company that makes a farming simulation social network game, Farmburg.
 
 import codecademylib
 import pandas as pd
@@ -24,3 +24,23 @@ _, pvalue, _, _ = chi2_contingency(contingency)
 
 print format(pvalue, '0.10f')
 is_significant = True
+
+num_visits = len(df)
+
+p_clicks_099 = (1000 / 0.99) / num_visits
+p_clicks_199 = (1000 / 1.99) / num_visits
+p_clicks_499 = (1000 / 4.99) / num_visits
+
+print(p_clicks_099)
+print(p_clicks_199)
+print(p_clicks_499)
+
+from scipy.stats import binom_test
+
+pvalueA = binom_test(316, num_visits, p_clicks_099)
+pvalueB = binom_test(183, num_visits, p_clicks_199)
+pvalueC = binom_test(83, num_visits, p_clicks_499)
+
+
+final_answer = 4.99
+
