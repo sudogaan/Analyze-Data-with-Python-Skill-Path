@@ -3,6 +3,8 @@
 import codecademylib
 import pandas as pd
 from matplotlib import pyplot as plt
+from scipy.stats import chi2_contingency
+
 
 # Loading the Data
 species = pd.read_csv("species_info.csv")
@@ -39,3 +41,55 @@ plt.title("Conservation Status by Species")
 plt.show()
 
 
+#Creating a new column based on whether there is an intervention to the conservation status or not
+species['is_protected'] = species.conservation_status != 'No Intervention'
+
+category_counts = species.groupby(['category', 'is_protected']).scientific_name.nunique().reset_index()
+#print category_counts.head()
+
+category_pivot = category_counts.pivot(columns='is_protected',
+                      index='category',
+                      values='scientific_name')\
+                      .reset_index()
+#print category_pivot
+
+#Changing column names from False, True to not_protected, protected
+category_pivot.columns = ["category", "not_protected", "protected"]
+#print(category_pivot)
+
+#Adding a column representing the percentage of protected animals in a particular species
+category_pivot["percent_protected"] = category_pivot.protected / (category_pivot.protected + category_pivot.not_protected)
+print(category_pivot)
+
+
+#Determining whether the difference between mammal-bird and also mammal-reptile is significant or not.
+
+contingency_mb = [[30, 146],
+              [75, 413]]
+
+_, pval_bird_mammal, _, _ = chi2_contingency(contingency_mb)
+print(pval_bird_mammal)
+
+contingency_mr = [[30, 146], [5, 73]]
+_, pval_reptile_mammal, _, _ = chi2_contingency(contingency_mr)
+print(pval_reptile_mammal)
+
+
+#Analysis of the sightings of different species at several national parks for the past 7 days.
+
+observations = pd.read_csv("observations.csv")
+print(observations.head())
+
+species["is_sheep"] = species.common_names.apply(lambda x: "Sheep" in x)
+
+species_is_sheep = species[species.is_sheep]
+print(species_is_sheep)
+
+sheep_species = species[(species.is_sheep) & (species.category == 'Mammal')]
+print(sheep_species)
+
+sheep_observations = pd.merge(sheep_species, observations)
+print(sheep_observations.head())
+
+obs_by_park = sheep_observations.groupby('park_name').observations.sum().reset_index()
+print(obs_by_park)
