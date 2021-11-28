@@ -93,3 +93,29 @@ print(sheep_observations.head())
 
 obs_by_park = sheep_observations.groupby('park_name').observations.sum().reset_index()
 print(obs_by_park)
+
+#Plotting a bar chart showing the different number of observations per week at each park.
+plt.figure(figsize=(16,4))
+ax = plt.subplot()
+plt.bar(range(len(obs_by_park.park_name)), obs_by_park.observations)
+ax.set_xticks(range(len(obs_by_park.park_name)))
+ax.set_xticklabels(obs_by_park.park_name)
+plt.ylabel("Number of Observations")
+plt.title("Observations of Sheep per Week")
+plt.show()
+
+
+#Sample Size Determination for Foot and Mouth disease reduction
+baseline = 15
+
+minimum_detectable_effect = 100 * 5./ 15
+print(minimum_detectable_effect)
+
+sample_size_per_variant = 890
+
+yellowstone_weeks_observing = sample_size_per_variant/507.
+print(yellowstone_weeks_observing)
+
+bryce_weeks_observing = sample_size_per_variant/250.
+print(bryce_weeks_observing)
+
